@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+<!--<div id="app">
+    {{message}}
+</div>
+<script type="text/javascript">
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello vue'
+        }
+    })
+</script>
+<div id="app-2" v-bind:title="message">
+    鼠标悬停看看显示什么
+</div>
+<script type="text/javascript">
+    var vm1 = new Vue({
+        el: '#app-2',
+        data: {
+            message: '页面加载于 ' + new Date().toLocaleString()
+        }
+    })
+</script>
+<div id="app-3">
+    <p v-if="seen">你看到我了
+    <p/>
+</div>
+<script type="text/javascript">
+    var vm3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: true
+        }
+    })
+</script>
+<div id="app-4">
+    <ol>
+        <li v-for="td in tds">
+            {{td.text}}
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    let vm4 = new Vue({
+        el: '#app-4',
+        data: {
+            tds: [
+                {text: '没有'},
+                {text: '语文'},
+                {text: '英语'},
+                {text: '数学'}
+            ]
+        }
+    })
+</script>
+<div id="app-5">
+    <p>{{message}}</p>
+    <button v-on:click="reverseMessage">文字反转</button>
+</div>
+<script type="text/javascript">
+    let vm5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'hello vue.js!'
+        },
+        methods: {
+            reverseMessage: ()=> {
+                vm5.message = vm5.message.split('').reverse().join('')
+            }
+        }
+    })
+</script>
+<div id="app-6">
+    <p>{{message}}</p>
+    <input v-model="message"/>
+</div>
+<script type="text/javascript">
+    let vm6 = new Vue({
+            el: '#app-6',
+            data: {
+                message: 'hello vue.js!'
+            }
+        })
+</script>
+&lt;!&ndash;<div id="app-7">
+    <ol>
+        &lt;!&ndash;
+     现在我们为每个 todo-item 提供 todo 对象
+     todo 对象是变量，即其内容可以是动态的。
+     我们也需要为每个组件提供一个“key”，稍后再
+     作详细解释。
+   &ndash;&gt;
+        <todo-item v-for="item in groceryList"
+        v-bind:item="item"
+        v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>&ndash;&gt;
+<script type="text/javascript">
+    /*Vue.component('todo-item',{
+        props: ['item'],
+        template: '<li>{{item.text}}</li>'
+    })
+    let app7 = new Vue({
+        el: '#app-7',
+        data: {
+            groceryList: [
+                {id:0,text:'黄瓜'},
+                {id:1,text:'西瓜'},
+                {id:2,text:'南瓜'},
+                {id:3,text:'东瓜'},
+                {id:4,text:'倭瓜'}
+            ]
+        }
+    })*/
+</script>
+<div id="example">
+    <p>Original message: "{{message}}"</p>
+    <p>Computed reversed message: "{{reversedMessage}}"</p>
+</div>
+<script type="text/javascript">
+    let vm8 = new Vue({
+        el: '#example',
+        data: {
+            message: 'Hello'
+        },
+        computed: {
+            reversedMessage: function(){
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+</script>
+
+<div id="demo">{{fullName}}</div>
+<script type="text/javascript">
+    let vm10 = new Vue({
+        el: '#demo',
+        data: {
+            firstName: 'foo',
+            lastName: 'bar'
+        },
+        computed:{
+            /*fullName:function () {
+                return this.firstName+' '+this.lastName;
+            }*/
+            fullName: {
+                get: function(){
+                    return this.firstName+' '+this.lastName;
+                },
+                set: function(val){
+                    let names = val.split(' ')
+                    this.firstName = names[0]
+                    this.lastName = names[names.length - 1]
+                }
+            }
+        }
+    })
+</script>
+<div id="watch-example">
+    <p>ask a yes/no question:
+        <input v-model="question"/>
+    </p>
+    <p>{{answer}}</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script type="text/javascript">
+    let watchExampleVm = new Vue({
+        el: '#watch-example',
+        data: {
+            question: '',
+            answer: 'I cannot give you an answer until you ask a question!'
+        },
+        watch: {
+            question: function(newQuestion,oldQuestion){
+                this.answer = 'Waiting for you to stop typing...',
+                this.debouncedGetAnsert()
+            }
+        },
+        created: function(){
+            this.debouncedGetAnsert = _.debounce(this.getAnswer(),500)
+        },
+        methods: {
+            getAnswer: function(){
+                if (this.question.indexOf('?') === -1){
+                    this.answer = 'Questions usually contain a question mark. ;-)'
+                    return
+                }
+                this.answer = 'Thinking...'
+                let vm = this
+                axios.get('https://yesno.wtf/api')
+                    .then(function(res){
+                        vm.answer = _.capitalize(res.data.answer)
+                    })
+                    .catch(function (error) {
+                    vm.answer = 'Error! Could not reach the API. ' + error
+                })
+            }
+        }
+    })
+</script>
+
+<div id="todo-list-example">
+    <form v-on:submit.prevent="addNewTodo">
+        <label for="new-todo">Add a todo</label>
+        <input v-model="newTodoText" id="new-todo" placeholder="e.g. feed the cat"/>
+        <button>add</button>
+    </form>
+    <ul>
+        <li
+        is="todo-item"
+        v-for="(todo, index) in todos"
+        v-bind:key="todo.id"
+        v-bind:title="todo.title"
+        v-on:remove="todos.splice(index,1)"
+        ></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    Vue.component('todo-item', {
+        template: '<li>{{title}}<button @click="$emit(\'remove\')">remove</button></li>',
+        props: ['title']
+    })
+    new Vue({
+        el: '#todo-list-example',
+        data: {
+            newTodoText: '',
+            todos: [
+                {
+                    id: 1,
+                    title: 'Do the dishes',
+                },
+                {
+                    id: 2,
+                    title: 'Take out the trash',
+                },
+                {
+                    id: 3,
+                    title: 'Mow the lawn'
+                }
+            ],
+            nextTodoId: 4
+        },
+        methods: {
+            addNewTodo: function() {
+                this.todos.push({
+                    id: this.nextTodoId++,
+                    title: this.newTodoText
+                })
+                this.newTodoText=''
+            }
+        }
+    })
+</script>-->
+<!--<div id="demo">
+  <counter-button></counter-button><br/>
+  <counter-button></counter-button><br/>
+  <counter-button></counter-button><br/>
+</div>
+<script type="text/javascript">
+    Vue.component('counter-button',{
+        data: ()=>{
+            return {
+                count: 0
+            }
+        },
+        template: '<button @click="count++">You clicked me {{ count }} times. </button><br/>'
+    })
+    new Vue({
+        el: '#demo'
+    })val
+</script>-->
+<!--<div id="demo">
+    <base-input v-bind:label="label" :value="value"></base-input>
+</div>
+<script type="text/javascript">
+    Vue.component('base-input', {
+        // inheritAttrs: false,
+        props: ['label', 'value'],
+        template: `
+    <label>
+      {{ label }}:
+      <input
+        v-bind="$attrs"
+        v-bind:value="value"
+        v-on:input="$emit('input', $event.target.value)"
+      >
+    </label>
+  `
+    })
+   let mv = new Vue({
+        el: '#demo',
+        data: {
+            label: '姓名',
+            value: '杨海超'
+        }
+    })
+</script>-->
+<!--<div id="demo">
+    &lt;!&ndash;<base-checkbox v-model="lovingVue"></base-checkbox>&ndash;&gt;
+    <base-input></base-input>
+</div>-->
+<!--script type="text/javascript">
+    Vue.component('base-checkbox', {
+        model: {
+            prop: 'checked',
+            event: 'change'
+        },
+        props: {
+            checked: Boolean
+        },
+        template: `
+    <input
+      type="checkbox"
+      v-bind:checked="checked"
+      v-on:change="$emit('change', $event.target.checked)"
+    >
+  `
+    })
+    let vm = new Vue({
+        el: '#demo',
+        data: {
+            lovingVue: ''
+        }
+    })
+</script>-->
+<!--script type="text/javascript">
+    Vue.component('base-input', {
+        inheritAttrs: false,
+        props: ['label', 'value'],
+        computed: {
+            inputListeners: function () {
+                var vm = this
+                return Object.assign({},
+                    this.$listeners,
+                    {
+                        input: function (e) {
+                            vm.$emit('input', e.target.value)
+                        }
+                    }
+                )
+            }
+        },
+        template: `
+            <label>
+            {{label}}
+            <input v-bind="$attrs" :value="value" v-on="inputListeners">
+            </label>
+        `
+    })
+    new Vue({
+        el: '#demo'
+    })
+</script>-->
+<!--<div id="demo">
+    <button v-on:click="show=!show">toggle</button>
+    <transition name="fade"><p v-if="show">hello</p></transition>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '#demo',
+        data: {
+            show: true
+        }
+    })
+</script>
+<style type="text/css">
+    .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}</style>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+<div id="demo">
+    <button v-on:click="show = !show">toggle</button>
+    <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave" v-bind:css="false">
+        <p v-if="show">Demo</p>
+    </transition>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '#demo',
+        data: {
+        show: false
+        },
+        methods: {
+            beforeEnter: function(el){
+                el.style.opacity = 0
+                el.style.transformOrigin = 'left'
+            },
+            enter: function(el,done) {
+                Velocity(el,{opacity: 1,fontSize: '3.4em'},{duration: 300})
+                Velocity(el,{fontSize: '1em'},{complete: done})
+            },
+            leave: function (el,done) {
+                Velocity(el,{translateX: '15px',rotateZ: '50deg'},{duration: 600})
+                Velocity(el,{rotateZ:'100deg'},{loop: 2})
+                Velocity(el,{rotateZ:'45deg',translateX: '30px',translateY: '30px',opacity: 0},{complete: done})
+
+            }
+        }
+
+    })
+</script>-->
+<!--<div id="list-demo" class="demo">
+    <button @click="add">add</button>
+    <button @click="remove">remove</button>
+    <transition-group name="list" tag="p">
+        <span v-for="item in items" :key="item" class="list-item">
+            {{item}}
+        </span>
+    </transition-group>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '#list-demo',
+        data: {
+            items: [1,2,3,4,5,6,7,8,9],
+            nextNum: 10
+        },
+        methods: {
+            randomIndex: function(){
+                return Math.floor(Math.random()*this.items.length)
+            },
+            add: function(){
+                this.items.splice(this.randomIndex(),0,this.nextNum++)
+            },
+            remove: function() {
+                this.items.splice(this.randomIndex(),1)
+            }
+        }
+    })
+</script>
+<style type="text/css">
+    .list-item {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    .list-enter, .list-leave-to
+        /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+</style>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+<div id="dynamic-fade-demo" class="demo">
+    fade in:<input type="range" v-model="fadeInDuration" min="0" :max="maxFadeDuration"/>
+    fade out:<input type="range" v-model="fadeOutDuration" min="0" :max="maxFadeDuration"/>
+    <transition :css="false" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+        <p v-if="show">hello</p>
+    </transition>
+    <button v-if="stop" @click="stop=false; show=false">start animating</button>
+    <button v-else @click="stop=true">stop it</button>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '#dynamic-fade-demo',
+        data: {
+            show: true,
+            fadeInDuration: 1000,
+            fadeOutDuration: 1000,
+            maxFadeDuration: 1500,
+            stop: true
+        },
+        mounted: function () {
+            this.show = false
+        },
+        methods: {
+            beforeEnter: function (el) {
+                el.style.opacity = 0
+            },
+            enter: function (el, done) {
+                let vm = this
+                Velocity(el,
+                    {opacity: 1},
+                    {
+                        duration: this.fadeInDuration,
+                        complete: function () {
+                            done()
+                            if (!vm.stop) {
+                                vm.show = false
+                            }
+                        }
+                    }
+                )
+            },
+            leave: function (el, done) {
+                let vm = this
+                Velocity(el,
+                    {
+                        opacity: 0
+                    },
+                    {
+                        duration: this.fadeOutDuration,
+                        complete: function () {
+                            done()
+                            vm.show = true
+                        }
+                    }
+                )
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

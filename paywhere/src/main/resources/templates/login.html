@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+</head>
+<body>
+用户名:<input type="text" id="username"><br>
+密码:<input type="password" id="password"><br>
+<button id="login">登录</button>
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+
+    $("#login").click(function () {
+        var inputData = {};
+        inputData.username = $("#username").val();
+        inputData.password = $("#password").val();
+        $.ajax({
+            method: "post",
+            url: "login",
+            contentType: "application/json",
+            data: JSON.stringify(inputData),
+            success: function (serverResp) {
+                let serverData = JSON.parse(serverResp);
+                if (serverData.code === 0) {
+                    localStorage.setItem("Authorization", serverData.data.tokenHead + serverData.data.token);
+                    alert(localStorage.getItem("Authorization"));
+                    window.location.herf = "./index"
+                } else {
+                    alert(serverData.msg);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("请求失败");
+            }
+        });
+    });
+</script>
+</body>
+</html>
