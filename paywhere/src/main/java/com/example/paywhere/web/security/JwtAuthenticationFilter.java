@@ -1,11 +1,10 @@
 package com.example.paywhere.web.security;
 
+import com.example.paywhere.commom.model.ServerResponse;
+import com.example.paywhere.commom.util.JsonUtil;
+import com.example.paywhere.commom.util.JwtTokenUtils;
+import com.example.paywhere.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jc.demo.springbootdemo.commom.model.ServerResponse;
-import com.jc.demo.springbootdemo.commom.util.JsonUtil;
-import com.jc.demo.springbootdemo.commom.util.JwtTokenUtils;
-import com.jc.demo.springbootdemo.dao.model.LoginUser;
-import com.jc.demo.springbootdemo.service.service.UserService;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

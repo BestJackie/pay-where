@@ -7,12 +7,13 @@
  */
 package com.example.paywhere.service.impl;
 
-import com.jc.demo.springbootdemo.commom.model.MailTemplateNameEnum;
-import com.jc.demo.springbootdemo.dao.model.Mail;
-import com.jc.demo.springbootdemo.dao.model.SysUser;
-import com.jc.demo.springbootdemo.service.service.MailService;
+
+import com.example.paywhere.commom.model.MailTemplateNameEnum;
+import com.example.paywhere.service.MailService;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -107,7 +108,7 @@ public class MailServiceImpl implements MailService {
         sendWithHTMLTemplate(mail);
     }
 
-    @Override
+  /*  @Override
     public void sendMail(SysUser sysUser) {
         Mail mail = new Mail();
         mail.setEmail(sysUser.geteMail());
@@ -117,7 +118,7 @@ public class MailServiceImpl implements MailService {
         mail.setParams(data);
         mail.setTemplate(MailTemplateNameEnum.REMAIND_USER_CPW.getCode());
         sendWithHTMLTemplate(mail);
-    }
+    }*/
 
     @Override
     public void sendMail(String code, String receiveEmail) {
@@ -129,5 +130,14 @@ public class MailServiceImpl implements MailService {
         mail.setParams(data);
         mail.setTemplate(MailTemplateNameEnum.VERIFY_CODE.getCode());
         sendWithHTMLTemplate(mail);
+    }
+
+    @Getter
+    @Setter
+    private class Mail {
+        private String email;
+        private String subject;
+        private Map params;
+        private String template;
     }
 }

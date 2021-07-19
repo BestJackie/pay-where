@@ -1,9 +1,6 @@
 package com.example.paywhere.web.security;
 
 
-import com.jc.demo.springbootdemo.dao.model.SysPerm;
-import com.jc.demo.springbootdemo.dao.model.SysRole;
-import com.jc.demo.springbootdemo.dao.model.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

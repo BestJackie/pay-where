@@ -1,3 +1,4 @@
+/*
 package com.example.paywhere.mbg;
 
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -8,6 +9,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+*/
 /**
  * FileName: Generator
  * Author:   haichaoyang
@@ -15,7 +17,8 @@ import java.util.ArrayList;
  * Description:
  * History:
  * since: 1.0.0
- */
+ *//*
+
 
 public class Generator {
 
@@ -32,3 +35,4 @@ public class Generator {
         warnings.forEach(System.out::println);
     }
 }
+*/

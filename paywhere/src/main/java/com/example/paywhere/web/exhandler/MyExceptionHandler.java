@@ -7,9 +7,9 @@
  */
 package com.example.paywhere.web.exhandler;
 
-import com.jc.demo.springbootdemo.commom.exception.MyException;
-import com.jc.demo.springbootdemo.commom.model.ServerResponse;
-import com.jc.demo.springbootdemo.service.service.MailService;
+import com.example.paywhere.commom.exception.MyException;
+import com.example.paywhere.commom.model.ServerResponse;
+import com.example.paywhere.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

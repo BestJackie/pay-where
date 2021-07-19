@@ -33,7 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("用户名不存在");
         }
         user.setRoles(userService.getRoleByUserId(user.getId()));
-        user.setPerms(userService.getPermByUserId(user.getId()));
         return new JwtUser(user);
     }
 }

@@ -8,10 +8,7 @@
 package com.example.paywhere.service.impl;
 
 
-import com.jc.demo.springbootdemo.dao.mapper.LoginLogMapper;
-import com.jc.demo.springbootdemo.dao.model.LoginLog;
-import com.jc.demo.springbootdemo.service.service.LoginLogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.paywhere.service.LoginLogService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,13 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginLogServiceimpl implements LoginLogService {
-    @Autowired
-    private LoginLogMapper loginLogMapper;
 
-    @Override
-    public void insert(LoginLog loginLog) {
-        loginLogMapper.insert(loginLog);
-    }
 
 
 }

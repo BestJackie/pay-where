@@ -90,6 +90,7 @@ public class ServerResponse implements Serializable {
         this.data = data;
     }
 
+    @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
         if (!(o instanceof ServerResponse)) return false;
@@ -111,6 +112,7 @@ public class ServerResponse implements Serializable {
         return other instanceof ServerResponse;
     }
 
+    @Override
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
@@ -123,6 +125,7 @@ public class ServerResponse implements Serializable {
         return result;
     }
 
+    @Override
     public String toString() {
         return "ServerResponse(code=" + this.getCode() + ", msg=" + this.getMsg() + ", data=" + this.getData() + ")";
     }

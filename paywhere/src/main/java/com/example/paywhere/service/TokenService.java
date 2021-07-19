@@ -1,7 +1,8 @@
 package com.example.paywhere.service;
 
 
-import com.jc.demo.springbootdemo.commom.model.ServerResponse;
+import com.example.paywhere.commom.model.ServerResponse;
+
 
 import javax.servlet.http.HttpServletRequest;
 
