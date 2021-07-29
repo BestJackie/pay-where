@@ -3,6 +3,7 @@ package com.example.paywhere.web.security;
 import com.example.paywhere.commom.model.ServerResponse;
 import com.example.paywhere.commom.util.JsonUtil;
 import com.example.paywhere.commom.util.JwtTokenUtils;
+import com.example.paywhere.dao.vo.UserVO;
 import com.example.paywhere.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.*;
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            LoginUser user = new ObjectMapper().readValue(request.getInputStream(), LoginUser.class);
+            UserVO user = new ObjectMapper().readValue(request.getInputStream(), UserVO.class);
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,7 +75,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 //        response.setHeader("Authorization", JwtTokenUtils.TOKEN_PREFIX + token);
         String tokensData = JsonUtil.objToStr(ServerResponse.success(data));
         response.getOutputStream().write(tokensData.getBytes());
-        userService.loginLog(request, jwtUser.getUsername());
+//        userService.loginLog(request, jwtUser.getUsername());
 //        response.sendRedirect("/index");
     }
 

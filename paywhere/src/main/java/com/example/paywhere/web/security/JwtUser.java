@@ -1,6 +1,7 @@
 package com.example.paywhere.web.security;
 
 
+import com.example.paywhere.dao.entity.UserProfile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,14 +32,14 @@ public class JwtUser implements UserDetails {
     public JwtUser() {
     }
 
-    public JwtUser(SysUser user) {
-        username = user.getUserName();
-        password = user.getPassWord();
+    public JwtUser(UserProfile user) {
+        username = user.getUsername();
+        password = user.getPassword();
         isAccountNonExpired = user.getIsExpiration();
         isAccountNonLocked = user.getIsLock();
-        LocalDate modifyDate = user.getModifyPwTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate modifyDate = user.getModifyPwTime().toLocalDate();
         isCredentialsNonExpired = LocalDate.now().toEpochDay() - modifyDate.toEpochDay() <= 90;
-        if (!CollectionUtils.isEmpty(user.getRoles())) {
+        /*if (!CollectionUtils.isEmpty(user.getRoles())) {
             authorities = user.getRoles().stream().map(SysRole::getRoleName).map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toSet());
             if (!CollectionUtils.isEmpty(user.getPerms())) {
                 Collection<GrantedAuthority> perms = user.getPerms().stream().map(SysPerm::getPermName).map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toSet());
@@ -46,7 +47,7 @@ public class JwtUser implements UserDetails {
             }
         } else if (!CollectionUtils.isEmpty(user.getPerms())) {
             authorities = user.getPerms().stream().map(SysPerm::getPermName).map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toSet());
-        }
+        }*/
     }
 
     @Override

@@ -53,7 +53,7 @@
     致${user.userName}先生/女士：
 </p>
 <p style="text-align:justify;text-indent: 2em;font-size:10pt;">
-    您在本系统中的账号${user.userName}密码即将在15天后过期，请您访问<a href="www.baidu.com" target="_blank">修改密码</a>及时更改密码，
+    您在本系统中的账号${user.userName}密码即将在15天后过期，请您访问<a href="127.0.0.1:9524/user/resetPassword" target="_blank">修改密码</a>及时更改密码，
 </p>
 </div>
 </body>

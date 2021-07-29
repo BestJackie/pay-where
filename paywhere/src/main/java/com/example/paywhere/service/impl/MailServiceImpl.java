@@ -9,6 +9,7 @@ package com.example.paywhere.service.impl;
 
 
 import com.example.paywhere.commom.model.MailTemplateNameEnum;
+import com.example.paywhere.dao.entity.UserProfile;
 import com.example.paywhere.service.MailService;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -108,17 +109,17 @@ public class MailServiceImpl implements MailService {
         sendWithHTMLTemplate(mail);
     }
 
-  /*  @Override
-    public void sendMail(SysUser sysUser) {
+    @Override
+    public void sendRemindMail(UserProfile sysUser) {
         Mail mail = new Mail();
-        mail.setEmail(sysUser.geteMail());
+        mail.setEmail(sysUser.getEmail());
         mail.setSubject("密码过期提醒邮件");
         HashMap<String, Object> data = new HashMap<>();
         data.put("user", sysUser);
         mail.setParams(data);
         mail.setTemplate(MailTemplateNameEnum.REMAIND_USER_CPW.getCode());
         sendWithHTMLTemplate(mail);
-    }*/
+    }
 
     @Override
     public void sendMail(String code, String receiveEmail) {

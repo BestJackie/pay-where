@@ -1,8 +1,8 @@
 package com.example.paywhere.web.security;
 
 
-import com.jc.demo.springbootdemo.dao.model.SysUser;
-import com.jc.demo.springbootdemo.service.service.UserService;
+import com.example.paywhere.dao.entity.UserProfile;
+import com.example.paywhere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,11 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        SysUser user = userService.getByUsername(s);
+        UserProfile user = userService.getByUsername(s);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("用户名不存在");
         }
-        user.setRoles(userService.getRoleByUserId(user.getId()));
+//        user.setRoles(userService.getRoleByUserId(user.getId()));
         return new JwtUser(user);
     }
 }

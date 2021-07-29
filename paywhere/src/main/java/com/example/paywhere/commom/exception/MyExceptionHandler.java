@@ -5,7 +5,7 @@
  * Description: hand exception
  * History:
  */
-package com.example.paywhere.web.exhandler;
+package com.example.paywhere.commom.exception;
 
 import com.example.paywhere.commom.exception.MyException;
 import com.example.paywhere.commom.model.ServerResponse;

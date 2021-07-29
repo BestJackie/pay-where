@@ -7,18 +7,19 @@
  */
 package com.example.paywhere.service.task;
 
-import com.jc.demo.springbootdemo.dao.mapper.SysUserMapper;
-import com.jc.demo.springbootdemo.dao.model.SysUser;
-import com.jc.demo.springbootdemo.dao.model.SysUserExample;
-import com.jc.demo.springbootdemo.service.service.MailService;
+import com.example.paywhere.dao.entity.UserProfile;
+import com.example.paywhere.dao.respository.UserProfileRespository;
+import com.example.paywhere.service.MailService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Description:〈提醒用户修改密码〉
@@ -26,12 +27,12 @@ import java.util.List;
  * @author haichaoyang3
  * @since 1.0.0
  */
-@Component
+@EnableScheduling
 public class RemindUserChangePw {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RemindUserChangePw.class);
     @Autowired
-    private SysUserMapper sysUserMapper;
+    private UserProfileRespository userProfileRespository;
 
     @Autowired
     private MailService mailService;
@@ -95,21 +96,18 @@ public class RemindUserChangePw {
 
     @Scheduled(cron = "0 0 1 1/1 * ?")//每天执行一次
     public void sendMailToRemindUserChangePw() {
-        List<SysUser> users = sysUserMapper.selectByExample(new SysUserExample());
-        for (SysUser user : users) {
-            LocalDate umpw = user.getModifyPwTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Iterable<UserProfile> users = userProfileRespository.findAll();
+        users.forEach(u->{
+            LocalDate umpw = u.getModifyPwTime().toLocalDate();
             Long diff = LocalDate.now().toEpochDay() - umpw.toEpochDay();
             if (diff == 90) {
-                mailService.sendMail(user);
+                mailService.sendRemindMail(u);
             }
             if (diff == 105) {
-                SysUser sysUser = new SysUser();
-                sysUser.setIsLock(true);
-                sysUser.setId(user.getId());
-                sysUser.setUserName(user.getUserName());
-                sysUserMapper.updateByPrimaryKeySelective(sysUser);
+                u.setIsLock(true);
+                userProfileRespository.saveAndFlush(u);
             }
-        }
+        });
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.paywhere.web.security;
 
-import com.jc.demo.springbootdemo.service.service.UserService;
+import com.example.paywhere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

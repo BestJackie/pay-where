@@ -1,3 +1,4 @@
+/*
 package com.example.paywhere.web.plugin;
 
 import org.apache.ibatis.executor.Executor;
@@ -123,4 +124,4 @@ public class MybatisLogInterceptor implements Interceptor {
 
     }
 
-}
+}*/

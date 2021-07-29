@@ -8,8 +8,6 @@
 package com.example.paywhere.web.config;
 
 
-import com.jc.demo.springbootdemo.web.intercepter.AccessLimitInterceptor;
-import com.jc.demo.springbootdemo.web.intercepter.ApiIdempotentIntercepter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +15,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -51,14 +52,6 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // 接口幂等性拦截器
-        registry.addInterceptor(apiIdempotentInterceptor());
-        // 接口防刷限流拦截器
-        registry.addInterceptor(accessLimitInterceptor());
-    }
-
-    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/login").setViewName("login");
@@ -69,17 +62,6 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
-
-    @Bean
-    public ApiIdempotentIntercepter apiIdempotentInterceptor() {
-        return new ApiIdempotentIntercepter();
-    }
-
-    @Bean
-    public AccessLimitInterceptor accessLimitInterceptor() {
-        return new AccessLimitInterceptor();
     }
 
 

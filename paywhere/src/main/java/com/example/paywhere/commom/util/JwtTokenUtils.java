@@ -119,8 +119,8 @@ public class JwtTokenUtils {
         return (List<String>) getTokenBody(token).get(PER_CLAIM);
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println(bCryptPasswordEncoder.encode("qwer1234"));
-    }
+    }*/
 }
