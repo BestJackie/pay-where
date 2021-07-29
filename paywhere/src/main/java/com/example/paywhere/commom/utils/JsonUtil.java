@@ -5,7 +5,7 @@
  * Description: json util tool
  * History:
  */
-package com.example.paywhere.commom.util;
+package com.example.paywhere.commom.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;

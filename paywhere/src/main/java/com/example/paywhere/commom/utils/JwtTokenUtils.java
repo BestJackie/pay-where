@@ -1,10 +1,9 @@
-package com.example.paywhere.commom.util;
+package com.example.paywhere.commom.utils;
 
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -12,7 +11,7 @@ import java.util.*;
 
 public class JwtTokenUtils {
 
-    public static final String TOKEN_HEADER = "Authorization";
+    public static final String TOKEN_HEADER = "X-ACCESS-TOKEN";
     public static final String TOKEN_PREFIX = "Bear ";
     public static final String CLAIM_KEY_CREATED = "createTime";
     private static final String SECRET = "$2a$10$PTxJHgCfpai4CUUqxGSyUedMIWX6EiLyOH0fjfBkoejuhQ457qmRe"; //1234qwer
@@ -61,7 +60,7 @@ public class JwtTokenUtils {
      * @param oldToken 带tokenHead的token
      */
     public static String refreshHeadToken(String oldToken) {
-        if (StringUtils.isEmpty(oldToken)) {
+        if (!StringUtils.hasText(oldToken)) {
             return null;
         }
         //token校验不通过

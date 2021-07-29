@@ -5,7 +5,7 @@
  * Description: iputil
  * History:
  */
-package com.example.paywhere.commom.util;
+package com.example.paywhere.commom.utils;
 
 import org.slf4j.Logger;
 import org.springframework.util.StringUtils;

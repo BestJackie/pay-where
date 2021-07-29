@@ -5,7 +5,7 @@
  * Description: tool
  * History:
  */
-package com.example.paywhere.commom.util;
+package com.example.paywhere.commom.utils;
 
 import java.util.Random;
 import java.util.UUID;

@@ -5,7 +5,7 @@
  * Description: config util
  * History:
  */
-package com.example.paywhere.commom.util;
+package com.example.paywhere.commom.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
