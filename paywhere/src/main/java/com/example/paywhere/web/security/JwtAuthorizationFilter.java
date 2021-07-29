@@ -1,6 +1,6 @@
 package com.example.paywhere.web.security;
 
-import com.example.paywhere.commom.util.JwtTokenUtils;
+import com.example.paywhere.commom.utils.JwtTokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

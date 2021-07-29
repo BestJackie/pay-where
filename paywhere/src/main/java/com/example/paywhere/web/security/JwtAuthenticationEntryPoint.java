@@ -1,7 +1,5 @@
 package com.example.paywhere.web.security;
 
-import com.example.paywhere.commom.model.ServerResponse;
-import com.example.paywhere.commom.util.JsonUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -22,9 +20,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.setCharacterEncoding("UTF-8");
-        httpServletResponse.setContentType("application/json; charset=utf-8");
-        String reason = "统一处理：原因" + e.getMessage();
-        httpServletResponse.getWriter().write(JsonUtil.objToStr(ServerResponse.error(reason)));
+        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

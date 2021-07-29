@@ -1,8 +1,8 @@
 package com.example.paywhere.web.security;
 
 import com.example.paywhere.commom.model.ServerResponse;
-import com.example.paywhere.commom.util.JsonUtil;
-import com.example.paywhere.commom.util.JwtTokenUtils;
+import com.example.paywhere.commom.utils.JsonUtil;
+import com.example.paywhere.commom.utils.JwtTokenUtils;
 import com.example.paywhere.dao.vo.UserVO;
 import com.example.paywhere.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+
+import static com.example.paywhere.commom.utils.JwtTokenUtils.TOKEN_HEADER;
+import static com.example.paywhere.commom.utils.JwtTokenUtils.TOKEN_PREFIX;
 
 /**
  * FileName: JwtAuthenticationFilter
@@ -68,15 +71,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
         String token = JwtTokenUtils.createToken(jwtUser.getUsername(), roles, perms, false);
         response.setCharacterEncoding("UTF-8");
-//        response.setContentType("application/json; charset=UTF-8");
-        Map<Object, Object> data = new HashMap<>();
-        data.put("tokenHead", JwtTokenUtils.TOKEN_PREFIX);
-        data.put("token", token);
-//        response.setHeader("Authorization", JwtTokenUtils.TOKEN_PREFIX + token);
-        String tokensData = JsonUtil.objToStr(ServerResponse.success(data));
+        response.setContentType("application/json; charset=UTF-8");
+        response.addHeader(TOKEN_HEADER, TOKEN_PREFIX + token);
+        String tokensData = JsonUtil.objToStr(ServerResponse.success());
         response.getOutputStream().write(tokensData.getBytes());
-//        userService.loginLog(request, jwtUser.getUsername());
-//        response.sendRedirect("/index");
     }
 
     @Override

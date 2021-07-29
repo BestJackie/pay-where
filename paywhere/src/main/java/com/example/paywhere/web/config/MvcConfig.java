@@ -51,12 +51,12 @@ public class MvcConfig implements WebMvcConfigurer {
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 
-    @Override
+   /* @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/register").setViewName("register");
-    }
+    }*/
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
