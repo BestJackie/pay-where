@@ -51,14 +51,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String userName = JwtTokenUtils.getUsername(token);
         List<String> authorities = new ArrayList<>();
         List<String> roles = JwtTokenUtils.getUserRoles(token);
-        List<String> perms = JwtTokenUtils.getUserPerms(token);
+//        List<String> perms = JwtTokenUtils.getUserPerms(token);
         if (StringUtils.hasText(userName)) {
             if (!CollectionUtils.isEmpty(roles)) {
                 authorities.addAll(roles);
             }
-            if (!CollectionUtils.isEmpty(perms)) {
+           /* if (!CollectionUtils.isEmpty(perms)) {
                 authorities.addAll(perms);
-            }
+            }*/
             if (CollectionUtils.isEmpty(authorities)) {
                 return new UsernamePasswordAuthenticationToken(userName, null, new ArrayList<>());
             }

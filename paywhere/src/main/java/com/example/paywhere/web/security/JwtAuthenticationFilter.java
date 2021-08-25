@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     perms.add(permOrRole);
             }
         }
-        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), roles, perms, false);
+        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), roles.stream().findFirst().get(), /*perms,*/ false);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
         response.addHeader(TOKEN_HEADER, TOKEN_PREFIX + token);
