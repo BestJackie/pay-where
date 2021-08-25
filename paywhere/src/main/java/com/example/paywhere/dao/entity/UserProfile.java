@@ -2,9 +2,7 @@ package com.example.paywhere.dao.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -28,5 +26,7 @@ public class UserProfile extends BaseEntity {
     private Boolean isExpiration;
     private LocalDateTime modifyPwTime;
     private String telephone;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }

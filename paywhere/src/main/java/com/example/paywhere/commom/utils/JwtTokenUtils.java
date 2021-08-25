@@ -4,10 +4,12 @@ package com.example.paywhere.commom.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JwtTokenUtils {
 
@@ -17,7 +19,7 @@ public class JwtTokenUtils {
     private static final String SECRET = "$2a$10$PTxJHgCfpai4CUUqxGSyUedMIWX6EiLyOH0fjfBkoejuhQ457qmRe"; //1234qwer
     private static final String ISS = "1355252693@163.com";
     private static final String ROLE_CLAIM = "rol";
-    private static final String PER_CLAIM = "per";
+//    private static final String PER_CLAIM = "per";
 
     // 过期时间是3600秒，既是1个小时
     private static final long EXPIRATION = 3600L;
@@ -26,13 +28,11 @@ public class JwtTokenUtils {
     private static final long EXPIRATION_REMEMBER = 604800L;
 
     // 创建token
-    public static String createToken(String username, Set<String> roles, Set<String> perms, boolean isRememberMe) {
+    public static String createToken(String username, String role, boolean isRememberMe) {
         long expiration = isRememberMe ? EXPIRATION_REMEMBER : EXPIRATION;
         Map<String, Object> map = new HashMap<>();
-        if (!CollectionUtils.isEmpty(roles))
-            map.put(ROLE_CLAIM, roles);
-        if (!CollectionUtils.isEmpty(perms))
-            map.put(PER_CLAIM, perms);
+        if (StringUtils.hasText(role))
+            map.put(ROLE_CLAIM, role);
         map.put(CLAIM_KEY_CREATED, new Date());
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECRET)
@@ -114,9 +114,6 @@ public class JwtTokenUtils {
         return (List<String>) getTokenBody(token).get(ROLE_CLAIM);
     }
 
-    public static List<String> getUserPerms(String token) {
-        return (List<String>) getTokenBody(token).get(PER_CLAIM);
-    }
 
    /* public static void main(String[] args) {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

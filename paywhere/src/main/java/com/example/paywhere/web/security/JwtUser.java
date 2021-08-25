@@ -3,13 +3,16 @@ package com.example.paywhere.web.security;
 
 import com.example.paywhere.dao.entity.UserProfile;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -39,15 +42,9 @@ public class JwtUser implements UserDetails {
         isAccountNonLocked = user.getIsLock();
         LocalDate modifyDate = user.getModifyPwTime().toLocalDate();
         isCredentialsNonExpired = LocalDate.now().toEpochDay() - modifyDate.toEpochDay() <= 90;
-        /*if (!CollectionUtils.isEmpty(user.getRoles())) {
-            authorities = user.getRoles().stream().map(SysRole::getRoleName).map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toSet());
-            if (!CollectionUtils.isEmpty(user.getPerms())) {
-                Collection<GrantedAuthority> perms = user.getPerms().stream().map(SysPerm::getPermName).map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toSet());
-                authorities.addAll(perms);
-            }
-        } else if (!CollectionUtils.isEmpty(user.getPerms())) {
-            authorities = user.getPerms().stream().map(SysPerm::getPermName).map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toSet());
-        }*/
+        if (Objects.nonNull(user.getRole())){
+            authorities.addAll(AuthorityUtils.createAuthorityList("ROLE_"+user.getRole().name()));
+        }
     }
 
     @Override

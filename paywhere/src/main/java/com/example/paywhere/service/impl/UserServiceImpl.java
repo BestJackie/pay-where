@@ -1,6 +1,7 @@
 package com.example.paywhere.service.impl;
 
 import com.example.paywhere.commom.exception.MyException;
+import com.example.paywhere.dao.entity.Role;
 import com.example.paywhere.dao.entity.UserProfile;
 import com.example.paywhere.dao.respository.UserProfileRespository;
 import com.example.paywhere.dao.vo.UserVO;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userVO.getPassword()));
         user.setEmail(userVO.getEmail());
         user.setUsername(userVO.getUsername());
+        user.setRole(Role.USER);
         user.setModifyPwTime(LocalDateTime.now().minusDays(90));
         userProfileRespository.saveAndFlush(user);
     }
