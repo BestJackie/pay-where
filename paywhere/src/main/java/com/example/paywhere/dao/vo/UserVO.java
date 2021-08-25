@@ -1,6 +1,11 @@
 package com.example.paywhere.dao.vo;
 
+import com.example.paywhere.dao.entity.UserProfile;
+import com.example.paywhere.validator.RegistorValidator;
 import lombok.Data;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * FileName: UserVO
@@ -12,7 +17,11 @@ import lombok.Data;
  */
 @Data
 public class UserVO {
+    @NotEmpty
     private String username;
+    @NotEmpty
     private String password;
-    private String code;
+    @Email(groups = RegistorValidator.class)
+    private String email;
+    private String telephone;
 }
