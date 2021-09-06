@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class JwtTokenUtils {
@@ -19,13 +18,15 @@ public class JwtTokenUtils {
     private static final String SECRET = "$2a$10$PTxJHgCfpai4CUUqxGSyUedMIWX6EiLyOH0fjfBkoejuhQ457qmRe"; //1234qwer
     private static final String ISS = "1355252693@163.com";
     private static final String ROLE_CLAIM = "rol";
-//    private static final String PER_CLAIM = "per";
 
     // 过期时间是3600秒，既是1个小时
     private static final long EXPIRATION = 3600L;
 
     // 选择了记住我之后的过期时间为7天
     private static final long EXPIRATION_REMEMBER = 604800L;
+
+    private JwtTokenUtils() {
+    }
 
     // 创建token
     public static String createToken(String username, String role, boolean isRememberMe) {
@@ -87,10 +88,7 @@ public class JwtTokenUtils {
         Date created = claims.get(CLAIM_KEY_CREATED, Date.class);
         Date refreshDate = new Date();
         //刷新时间在创建时间的指定时间内
-        if (refreshDate.after(created) && refreshDate.getTime() - created.getTime() < 30 * 60 * 1000) {
-            return true;
-        }
-        return false;
+        return refreshDate.after(created) && refreshDate.getTime() - created.getTime() < time * 1000;
     }
 
     // 从token中获取用户名
@@ -110,13 +108,8 @@ public class JwtTokenUtils {
                 .getBody();
     }
 
-    public static List<String> getUserRoles(String token) {
-        return (List<String>) getTokenBody(token).get(ROLE_CLAIM);
+    public static String getUserRoles(String token) {
+        return (String) getTokenBody(token).get(ROLE_CLAIM);
     }
 
-
-   /* public static void main(String[] args) {
-        final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println(bCryptPasswordEncoder.encode("qwer1234"));
-    }*/
 }
