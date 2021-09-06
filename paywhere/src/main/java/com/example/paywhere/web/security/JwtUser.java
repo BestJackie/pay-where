@@ -4,16 +4,11 @@ package com.example.paywhere.web.security;
 import com.example.paywhere.dao.entity.UserProfile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * FileName: JwtUser
@@ -27,6 +22,7 @@ public class JwtUser implements UserDetails {
 
     private String username;
     private String password;
+    private String role;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
@@ -38,12 +34,13 @@ public class JwtUser implements UserDetails {
     public JwtUser(UserProfile user) {
         username = user.getUsername();
         password = user.getPassword();
+        role = user.getRole().name();
         isAccountNonExpired = user.getIsExpiration();
         isAccountNonLocked = user.getIsLock();
         LocalDate modifyDate = user.getModifyPwTime().toLocalDate();
         isCredentialsNonExpired = LocalDate.now().toEpochDay() - modifyDate.toEpochDay() <= 90;
         if (Objects.nonNull(user.getRole())){
-            authorities.addAll(AuthorityUtils.createAuthorityList("ROLE_"+user.getRole().name()));
+            authorities = AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().name());
         }
     }
 
@@ -89,5 +86,9 @@ public class JwtUser implements UserDetails {
                 ", password='" + password + '\'' +
                 ", authorities=" + authorities +
                 '}';
+    }
+
+    public String getRole() {
+        return role;
     }
 }

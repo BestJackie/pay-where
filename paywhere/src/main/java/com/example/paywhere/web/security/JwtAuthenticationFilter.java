@@ -4,22 +4,19 @@ import com.example.paywhere.commom.model.ServerResponse;
 import com.example.paywhere.commom.utils.JsonUtil;
 import com.example.paywhere.commom.utils.JwtTokenUtils;
 import com.example.paywhere.dao.vo.UserVO;
-import com.example.paywhere.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
 
 import static com.example.paywhere.commom.utils.JwtTokenUtils.TOKEN_HEADER;
 import static com.example.paywhere.commom.utils.JwtTokenUtils.TOKEN_PREFIX;
@@ -32,13 +29,12 @@ import static com.example.paywhere.commom.utils.JwtTokenUtils.TOKEN_PREFIX;
  * History:
  * since: 1.0.0
  */
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
-    private UserService userService;
+    private final AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
     }
 
 
@@ -46,7 +42,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             UserVO user = new ObjectMapper().readValue(request.getInputStream(), UserVO.class);
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<>()));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -56,20 +52,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         JwtUser jwtUser = (JwtUser) authResult.getPrincipal();
-        System.out.println("jwtUser:" + jwtUser.toString());
-        Set<String> roles = new HashSet<>();
-        Set<String> perms = new HashSet<>();
-        Collection<? extends GrantedAuthority> authorities = jwtUser.getAuthorities();
-        if (!CollectionUtils.isEmpty(authorities)) {
-            for (GrantedAuthority authority : authorities) {
-                String permOrRole = authority.getAuthority();
-                if (permOrRole.startsWith("ROLE_"))
-                    roles.add(permOrRole);
-                else
-                    perms.add(permOrRole);
-            }
-        }
-        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), roles.stream().findFirst().get(), /*perms,*/ false);
+        logger.debug("jwtUser:" + jwtUser.toString());
+        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), jwtUser.getRole(), false);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
         response.addHeader(TOKEN_HEADER, TOKEN_PREFIX + token);
@@ -89,6 +73,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if (failed instanceof CredentialsExpiredException)
             serverResponse = ServerResponse.error("密码已过期");
         String data = JsonUtil.objToStr(serverResponse);
+        response.setContentType("application/json; charset=UTF-8");
+        response.setCharacterEncoding("utf-8");
         response.getOutputStream().write(data.getBytes());
     }
 

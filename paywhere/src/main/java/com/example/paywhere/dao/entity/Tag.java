@@ -3,7 +3,10 @@ package com.example.paywhere.dao.entity;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * FileName: TagEntity
@@ -22,8 +25,10 @@ public class Tag extends BaseEntity {
     @JoinColumn(name = "owner_id")
     @CreatedBy
     private UserProfile owner;
+    /**
+     * 标签类型，0公有，1私有
+     */
+    private int type;
 
-    /*@ManyToMany(mappedBy="tags")
-    public Set<ConsumeRecord> consumeRecords; */
 
 }
