@@ -1,8 +1,12 @@
 package com.example.paywhere.web.controller;
 
 import com.example.paywhere.commom.model.ServerResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.paywhere.dao.vo.TagVO;
+import com.example.paywhere.service.TagService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("tag")
 public class TagController {
 
+    @Autowired
+    private TagService tagService;
 
-    @GetMapping("user")
-    @PreAuthorize("hasRole('USER')")
-    public ServerResponse test() {
-        return ServerResponse.success("行i行动发生了放假啊");
+    @PostMapping
+    public ServerResponse save(@RequestBody @Validated TagVO tagVO) {
+        tagService.save(tagVO);
+        return ServerResponse.success();
     }
 }
