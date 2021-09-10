@@ -6,6 +6,8 @@ import com.example.paywhere.dao.respository.TagRepository;
 import com.example.paywhere.dao.vo.TagVO;
 import com.example.paywhere.service.TagService;
 import com.example.paywhere.web.security.SecurityUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,5 +36,10 @@ public class TagServiceImpl implements TagService {
         tag.setName(tagVO.getName());
         tag.setType(tagVO.getType());
         tagRepository.save(tag);
+    }
+
+    @Override
+    public Page<TagVO> listTag(PageRequest pageRequest) {
+        return tagRepository.pageTag(SecurityUtils.getCurrentUser(), pageRequest);
     }
 }

@@ -4,11 +4,11 @@ import com.example.paywhere.commom.model.ServerResponse;
 import com.example.paywhere.dao.vo.TagVO;
 import com.example.paywhere.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * FileName: TagController
@@ -31,4 +31,13 @@ public class TagController {
         tagService.save(tagVO);
         return ServerResponse.success();
     }
+
+
+    @GetMapping
+    public ServerResponse list(@PageableDefault PageRequest pageRequest) {
+        Page<TagVO> ret = tagService.listTag(pageRequest);
+        return ServerResponse.success(ret);
+    }
+
+
 }
