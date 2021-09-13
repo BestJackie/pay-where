@@ -20,15 +20,16 @@ import java.util.Set;
 @Entity
 public class ConsumeRecord extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "channl_code")
-    private Channl channl;
+
+    @Enumerated(EnumType.STRING)
+    private Channel channel;
+
     @ManyToMany
-    @JoinTable(name="consume_tag",
-            joinColumns=
-            @JoinColumn(name="consume_id", referencedColumnName="id"),
-            inverseJoinColumns=
-            @JoinColumn(name="tag_id", referencedColumnName="id")
+    @JoinTable(name = "consume_tag",
+            joinColumns =
+            @JoinColumn(name = "consume_id", referencedColumnName = "id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     private Set<Tag> tags;
 

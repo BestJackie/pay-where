@@ -42,4 +42,9 @@ public class TagServiceImpl implements TagService {
     public Page<TagVO> listTag(PageRequest pageRequest) {
         return tagRepository.pageTag(SecurityUtils.getCurrentUser(), pageRequest);
     }
+
+    @Override
+    public Tag getByName(String tagName) {
+        return tagRepository.findByNameLikeAndAndOwner(tagName, SecurityUtils.getCurrentUser());
+    }
 }
