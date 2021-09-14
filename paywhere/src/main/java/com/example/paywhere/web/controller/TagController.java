@@ -44,5 +44,11 @@ public class TagController {
         return ServerResponse.success(tagService.getByName(tagName));
     }
 
+    @DeleteMapping
+    public ServerResponse delete(@RequestParam Long id) {
+        tagService.deleteById(id);
+        return ServerResponse.success();
+    }
+
 
 }

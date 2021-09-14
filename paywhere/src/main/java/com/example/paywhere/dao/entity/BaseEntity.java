@@ -21,12 +21,10 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity extends IdentifiableEntity<Long> {
     @JsonIgnore
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
     @CreatedDate
     private LocalDateTime createTime;
     @JsonIgnore
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
     @LastModifiedDate
     private LocalDateTime modifyTime;

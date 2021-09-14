@@ -12,4 +12,6 @@ public interface TagService {
     Page<TagVO> listTag(PageRequest pageRequest);
 
     Tag getByName(String tagName);
+
+    void deleteById(Long id);
 }

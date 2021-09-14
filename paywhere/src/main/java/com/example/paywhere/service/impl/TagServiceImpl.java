@@ -1,6 +1,7 @@
 package com.example.paywhere.service.impl;
 
 import com.example.paywhere.commom.exception.MyException;
+import com.example.paywhere.dao.entity.IdentifiableEntity;
 import com.example.paywhere.dao.entity.Tag;
 import com.example.paywhere.dao.respository.TagRepository;
 import com.example.paywhere.dao.vo.TagVO;
@@ -46,5 +47,16 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag getByName(String tagName) {
         return tagRepository.findByNameLikeAndAndOwner(tagName, SecurityUtils.getCurrentUser());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        IdentifiableEntity<Long> identifiable = new IdentifiableEntity<>();
+        identifiable.setId(id);
+        Tag tag = tagRepository.findById(identifiable).orElseThrow(() -> new MyException("当前ID标签不存在"));
+        if (!SecurityUtils.getCurrentUser().equals(tag.getOwner())) {
+            throw new MyException("只能更新自己的tag");
+        }
+        tagRepository.delete(tag);
     }
 }
