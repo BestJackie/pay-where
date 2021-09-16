@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity extends IdentifiableEntity<Long> {
+public abstract class BaseEntity extends IdentifiableEntity<Long> {
     @JsonIgnore
     @Column(updatable = false)
     @CreatedDate

@@ -6,7 +6,10 @@ import com.example.paywhere.dao.entity.UserProfile;
 import com.example.paywhere.dao.respository.UserProfileRespository;
 import com.example.paywhere.dao.vo.UserVO;
 import com.example.paywhere.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,7 @@ import java.util.Objects;
  */
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 
@@ -37,9 +41,17 @@ public class UserServiceImpl implements UserService {
         return userProfileRespository.findByUsername(username);
     }
 
+    @Cacheable(cacheNames = "users", key = "#token.name")
+    @Override
+    public UserProfile getUserFromToken(Authentication token) {
+        UserProfile user = getByUsername(token.getName());
+        log.debug("getUserFromToken: {}", user);
+        return user;
+    }
+
     @Override
     public void registUser(UserVO userVO) {
-        if (Objects.nonNull(getByUsername(userVO.getUsername()))){
+        if (Objects.nonNull(getByUsername(userVO.getUsername()))) {
             throw new MyException("用户名已存在");
         }
         UserProfile user = new UserProfile();

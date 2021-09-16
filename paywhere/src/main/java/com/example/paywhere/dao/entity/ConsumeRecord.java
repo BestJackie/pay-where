@@ -5,7 +5,6 @@ import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Set;
 
 /**
  * FileName: ConsumeRecord
@@ -24,14 +23,8 @@ public class ConsumeRecord extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Channel channel;
 
-    @ManyToMany
-    @JoinTable(name = "consume_tag",
-            joinColumns =
-            @JoinColumn(name = "consume_id", referencedColumnName = "id"),
-            inverseJoinColumns =
-            @JoinColumn(name = "tag_id", referencedColumnName = "id")
-    )
-    private Set<Tag> tags;
+    @ManyToOne(optional = false)
+    private Tag tag;
 
     @ManyToOne
     @JoinColumn(name = "consumer_id")
@@ -39,5 +32,7 @@ public class ConsumeRecord extends BaseEntity {
     private UserProfile consumer;
 
     private BigDecimal amount;
+
+    private String mark;
 
 }

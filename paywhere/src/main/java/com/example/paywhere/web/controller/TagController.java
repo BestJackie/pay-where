@@ -5,7 +5,7 @@ import com.example.paywhere.dao.vo.TagVO;
 import com.example.paywhere.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +34,8 @@ public class TagController {
 
 
     @GetMapping
-    public ServerResponse list(@PageableDefault PageRequest pageRequest) {
-        Page<TagVO> ret = tagService.listTag(pageRequest);
+    public ServerResponse list(@PageableDefault Pageable pageable) {
+        Page<TagVO> ret = tagService.listTag(pageable);
         return ServerResponse.success(ret);
     }
 

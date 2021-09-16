@@ -1,9 +1,8 @@
 package com.example.paywhere.dao.respository;
 
 import com.example.paywhere.dao.entity.UserProfile;
+import com.example.paywhere.web.security.SecurityUtils;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,10 +17,9 @@ import java.util.Optional;
  */
 @Component
 public class SpringSecurityAuditorAware implements AuditorAware<UserProfile> {
+
     @Override
     public Optional<UserProfile> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserProfile principal = (UserProfile) authentication.getPrincipal();
-        return Optional.ofNullable(principal);
+        return Optional.ofNullable(SecurityUtils.getCurrentUser());
     }
 }

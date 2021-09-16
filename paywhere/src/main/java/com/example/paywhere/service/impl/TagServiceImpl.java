@@ -8,7 +8,7 @@ import com.example.paywhere.dao.vo.TagVO;
 import com.example.paywhere.service.TagService;
 import com.example.paywhere.web.security.SecurityUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,11 +36,12 @@ public class TagServiceImpl implements TagService {
         tag = new Tag();
         tag.setName(tagVO.getName());
         tag.setType(tagVO.getType());
+        tag.setVisibility(tagVO.getVisibility());
         tagRepository.save(tag);
     }
 
     @Override
-    public Page<TagVO> listTag(PageRequest pageRequest) {
+    public Page<TagVO> listTag(Pageable pageRequest) {
         return tagRepository.pageTag(SecurityUtils.getCurrentUser(), pageRequest);
     }
 
