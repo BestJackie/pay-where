@@ -39,8 +39,8 @@ public class TagController {
         return ServerResponse.success(ret);
     }
 
-    @GetMapping("/{tagName}")
-    public ServerResponse getByNameLike(@PathVariable String tagName) {
+    @GetMapping
+    public ServerResponse getByNameLike(@RequestParam String tagName) {
         return ServerResponse.success(tagService.getByName(tagName));
     }
 

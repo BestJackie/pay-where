@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userVO.getEmail());
         user.setUsername(userVO.getUsername());
         user.setRole(Role.USER);
-        user.setModifyPwTime(LocalDateTime.now().minusDays(90));
+        user.setModifyPwTime(LocalDateTime.now());
         userProfileRespository.saveAndFlush(user);
     }
 }

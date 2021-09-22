@@ -3,7 +3,9 @@ package com.example.paywhere.dao.entity;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * FileName: TagEntity
@@ -22,11 +24,15 @@ public class Tag extends BaseEntity {
     @CreatedBy
     private UserProfile owner;
 
-    @Enumerated(EnumType.STRING)
-    private Visibility visibility;
+    /**
+     * PUBLIC/PRIVATE
+     */
+    private String visibility;
 
-    @Enumerated(EnumType.STRING)
-    private TagType type;
+    /**
+     * IN/OUT
+     */
+    private String type;
 
 
 }

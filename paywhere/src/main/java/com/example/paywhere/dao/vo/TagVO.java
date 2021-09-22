@@ -1,8 +1,5 @@
 package com.example.paywhere.dao.vo;
 
-import com.example.paywhere.dao.entity.TagType;
-import com.example.paywhere.dao.entity.Visibility;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,17 +17,14 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class TagVO {
-    private Long id;
+public class TagVO extends BaseVO {
     @NotEmpty
     private String name;
-    private TagType type;
+    private String type;
     private String owner;
-    private Visibility visibility;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime createTime;
+    private String visibility;
 
-    public TagVO(Long id, String name, TagType type, String owner, Visibility visibility, LocalDateTime createTime) {
+    public TagVO(Long id, String name, String type, String owner, String visibility, LocalDateTime createTime) {
         this.id = id;
         this.name = name;
         this.type = type;
