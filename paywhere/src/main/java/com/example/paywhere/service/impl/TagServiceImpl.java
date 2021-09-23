@@ -47,6 +47,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag getByName(String tagName) {
+        tagName = "%" + tagName + "%";
         return tagRepository.findByNameLikeAndAndOwner(tagName, SecurityUtils.getCurrentUser());
     }
 
