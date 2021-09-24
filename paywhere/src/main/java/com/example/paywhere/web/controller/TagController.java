@@ -10,6 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.*;
+
 /**
  * FileName: TagController
  * Author:   admin
@@ -39,8 +41,8 @@ public class TagController {
         return ServerResponse.success(ret);
     }
 
-    @GetMapping
-    public ServerResponse getByNameLike(@RequestParam String tagName) {
+    @GetMapping("{tagName}")
+    public ServerResponse getByNameLike(@PathVariable(name = "tagName") String tagName) {
         return ServerResponse.success(tagService.getByName(tagName));
     }
 
@@ -49,6 +51,4 @@ public class TagController {
         tagService.deleteById(id);
         return ServerResponse.success();
     }
-
-
 }

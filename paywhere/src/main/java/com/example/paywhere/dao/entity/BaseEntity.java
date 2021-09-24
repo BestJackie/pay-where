@@ -29,6 +29,7 @@ public abstract class BaseEntity extends IdentifiableEntity<Long> {
     @LastModifiedDate
     private LocalDateTime modifyTime;
 
+    private Boolean deleted = false;
     @PreUpdate
     public void preUpdate() {
         modifyTime = LocalDateTime.now();

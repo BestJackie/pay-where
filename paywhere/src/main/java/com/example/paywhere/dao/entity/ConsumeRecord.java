@@ -1,6 +1,7 @@
 package com.example.paywhere.dao.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
